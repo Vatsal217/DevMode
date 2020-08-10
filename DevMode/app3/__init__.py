@@ -1,0 +1,1 @@
+default_app_config = "app3.apps.App3Config"

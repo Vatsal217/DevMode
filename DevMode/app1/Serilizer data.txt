@@ -1,0 +1,203 @@
+Microsoft Windows [Version 10.0.18363.836]
+(c) 2019 Microsoft Corporation. All rights reserved.
+
+C:\Users\a\Desktop\Practice>pyC:/Users/a/anaconda3/Scripts/activate
+'pyC:' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\a\Desktop\Practice>conda activate untitled
+'conda' is not recognized as an internal or external command,
+operable program or batch file.
+
+C:\Users\a\Desktop\Practice>python manage.py shell
+python: can't open file 'manage.py': [Errno 2] No such file or directory
+
+C:\Users\a\Desktop\Practice>python manage.py shell
+python: can't open file 'manage.py': [Errno 2] No such file or directory
+
+
+C:\Users\a\Desktop\Practice\DevMode>python manage.py shell
+Python 3.8.1 (tags/v3.8.1:1b293b6, Dec 18 2019, 22:39:24) [MSC v.1916 32 bit (Intel)]
+Type 'copyright', 'credits' or 'license' for more information
+IPython 7.14.0 -- An enhanced Interactive Python. Type '?' for help.
+
+In [1]: from app1.models import Article
+
+In [2]: from app1.api.serializers import ArticleSerializer
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-2-e71c293eb68f> in <module>
+----> 1 from app1.api.serializers import ArticleSerializer
+
+~\Desktop\Practice\DevMode\app1\api\serializers.py in <module>
+      3
+      4
+----> 5 class ArticleSerializer(serializers.Serializer):
+      6     id = serializers.IntegerField(read_only=True)
+      7     author = serializers.CharField()
+
+~\Desktop\Practice\DevMode\app1\api\serializers.py in ArticleSerializer()
+      8     title = serializers.CharField()
+      9     description = serializers.CharField()
+---> 10     body = serializers.TextField()
+     11     location = serializers.CharField()
+     12     publication_date = serializers.DateField()
+
+AttributeError: module 'rest_framework.serializers' has no attribute 'TextField'
+
+In [3]: 
+In [3]: from app1.api.serializers import ArticleSerializer
+
+In [4]: article.instance = Article.objects.first()
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+<ipython-input-4-6f6c9226c8bb> in <module>
+----> 1 article.instance = Article.objects.first()
+
+NameError: name 'article' is not defined
+
+In [5]: article_instance = Article.objects.first()
+
+In [6]: article_instance
+Out[6]: <Article: J. K. RowlingHarry Potter>
+
+In [7]: serializer = ArticleSerializer(article_instance)
+
+
+Unhandled exception in event loop:
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\proactor_events.py", line 768, in _loop_self_reading
+    f.result()  # may raise
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 808, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 457, in finish_recv
+    raise ConnectionResetError(*exc.args)
+
+Exception [WinError 995] The I/O operation has been aborted because of either a thread exit or an application request
+Press ENTER to continue...
+In [8]: serializer = ArticleSerializer(article_instance)
+
+In [9]: serializer
+Out[9]: 
+ArticleSerializer(<Article: J. K. RowlingHarry Potter>):
+    id = IntegerField(read_only=True)
+    author = CharField()
+    title = CharField()
+    description = CharField()
+    body = CharField()
+    location = CharField()
+    publication_date = DateField()
+    active = BooleanField()
+    created_at = DateTimeField(read_only=True)
+    updated_at = DateTimeField(read_only=True)
+
+
+Unhandled exception in event loop:
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\proactor_events.py", line 768, in _loop_self_reading
+    f.result()  # may raise
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 808, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 457, in finish_recv
+    raise ConnectionResetError(*exc.args)
+
+Exception [WinError 995] The I/O operation has been aborted because of either a thread exit or an application request
+Press ENTER to continue...
+In [10]: serializer.data
+Out[10]: {'id': 1, 'author': 'J. K. Rowling', 'title': 'Harry Potter', 'description': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling.', 'body': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry', 'location': 'London', 'publication_date': '2001-02-15', 'active': True, 'created_at': '2020-05-18T15:26:52.695847Z', 'updated_at': '2020-05-18T15:26:52.695847Z'}
+
+In [11]: from rest_framework.renderers import JSONRenderer
+
+In [12]: json = JSONRenderer.render(serializer.data)
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-12-a97570eb2d80> in <module>
+----> 1 json = JSONRenderer.render(serializer.data)
+
+TypeError: render() missing 1 required positional argument: 'data'
+
+In [13]: json = JSONRenderer().render(serializer.data)
+
+In [14]: json
+Out[14]: b'{"id":1,"author":"J. K. Rowling","title":"Harry Potter","description":"Harry Potter is a series of fantasy novels written by British author J. K. Rowling.","body":"Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry","location":"London","publication_date":"2001-02-15","active":true,"created_at":"2020-05-18T15:26:52.695847Z","updated_at":"2020-05-18T15:26:52.695847Z"}'
+
+In [15]: import io
+
+In [16]: from rest_framework.renderers import JSONRenderer
+
+In [17]: stream = io.BytesIO(json)
+
+In [18]: data = JSONParser().parser(stream)
+---------------------------------------------------------------------------
+NameError                                 Traceback (most recent call last)
+<ipython-input-18-cee2f23e7aef> in <module>
+----> 1 data = JSONParser().parser(stream)
+
+NameError: name 'JSONParser' is not defined
+
+In [19]: from rest_framework.parsers import JSONParser
+
+In [20]: stream = io.BytesIO(json)
+
+In [21]: data = JSONParser().parser(stream)
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-21-cee2f23e7aef> in <module>
+----> 1 data = JSONParser().parser(stream)
+
+AttributeError: 'JSONParser' object has no attribute 'parser'
+
+In [22]: data = JSONParser().parse(stream)
+
+
+Unhandled exception in event loop:
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\proactor_events.py", line 768, in _loop_self_reading
+    f.result()  # may raise
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 808, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 457, in finish_recv
+    raise ConnectionResetError(*exc.args)
+
+Exception [WinError 995] The I/O operation has been aborted because of either a thread exit or an application request
+Press ENTER to continue...
+In [23]: data
+Out[23]: 
+{'id': 1,
+ 'author': 'J. K. Rowling',
+ 'title': 'Harry Potter',
+ 'description': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling.',
+ 'body': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry',
+ 'location': 'London',
+ 'publication_date': '2001-02-15',
+ 'active': True,
+ 'created_at': '2020-05-18T15:26:52.695847Z',
+ 'updated_at': '2020-05-18T15:26:52.695847Z'}
+
+In [24]: serializer = ArticleSerializer(data=data)
+
+In [25]: serializer.is_valid()
+Out[25]: True
+
+In [26]: serializer.validated.data
+---------------------------------------------------------------------------
+AttributeError                            Traceback (most recent call last)
+<ipython-input-26-4daf9cbcf256> in <module>
+----> 1 serializer.validated.data
+
+AttributeError: 'ArticleSerializer' object has no attribute 'validated'
+
+
+Unhandled exception in event loop:
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\proactor_events.py", line 768, in _loop_self_reading
+    f.result()  # may raise
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 808, in _poll
+    value = callback(transferred, key, ov)
+  File "C:\Users\a\AppData\Local\Programs\Python\Python38-32\lib\asyncio\windows_events.py", line 457, in finish_recv
+    raise ConnectionResetError(*exc.args)
+
+Exception [WinError 995] The I/O operation has been aborted because of either a thread exit or an application request
+Press ENTER to continue...
+In [27]: serializer.save()
+{'author': 'J. K. Rowling', 'title': 'Harry Potter', 'description': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling.', 'body': 'Harry Potter is a series of fantasy novels written by British author J. K. Rowling. The novels chronicle the lives of a young wizard, Harry Potter, and his friends 
+Hermione Granger and Ron Weasley, all of whom are students at Hogwarts School of Witchcraft and Wizardry', 'location': 'London', 'publication_date': datetime.date(2001, 2, 15), 'active': True}
+Out[27]: <Article: J. K. RowlingHarry Potter>
+
+In [28]: 
